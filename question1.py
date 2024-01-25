@@ -80,7 +80,7 @@ def compute_one_thread(lh, uh, ur, ud, C, p):
     for n in range(1,tours):
         u=random.uniform(0.0,1.0)
         max_rate=lh*indic(X[0]>0) + uh*indic(X[1]>0) + min(X[2],C)*ur + ud*indic(X[3])
-        tau+=np.random.exponential(max_rate)
+        tau+=max_rate# np.random.exponential(max_rate)
         proba_TtoH=lh*indic(X[0]>0)/max_rate
         proba_HtoR=uh*indic(X[1]>0)/max_rate
         proba_RtoD=(1-p)*ur*min(X[2],C)/max_rate
@@ -140,7 +140,7 @@ def compute_one_thread(lh, uh, ur, ud, C, p):
     return (p_rejec,cust_nb,throughput)# performance measures with N = 1 
 
 
-(p_rejec,cust_nb,throughput)=compute_one_thread(1,1,1,1,1,0.9)
-print(p_rejec)
-print(cust_nb)
-print(throughput)
+(p_rejec,cust_nb,throughput)=compute_one_thread(lh=2,ud=1,uh=1,ur=1,C=1,p=1)
+print("probabilité de refus : {}".format(p_rejec))
+print("nombre de clients : {}, total : {}".format(cust_nb,sum(cust_nb)))
+print("throughput : {}, total : {}".format(throughput,sum(throughput)))
