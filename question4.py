@@ -1,3 +1,4 @@
+from math import factorial
 import random  
 import numpy as np
 
@@ -48,6 +49,19 @@ def compute_approx_2(lh, uh, ur, ud, C, p,N):
     return (requests_nb,mean_sojourn,sojourns)
 
 
+def compute_approx_3(lh, uh, ur, ud, C, p,N):
+    n=100
+    mu=[uh,ur,ud]
+    gamma=[lh,lh/p,(1-p)*lh/p]
+    rho=[g/u for g,u in zip(gamma,mu)]
+    r_nb_h_d=[r/(1-r) for r in [rho[0],rho[2]]]
+    rr=rho[1]
+    req_nb_r= sum([(np.exp(-rr))*rr**i/factorial(i)*i for i in range(1,n)])
+    requests_nb=[r_nb_h_d[0],req_nb_r,r_nb_h_d[1]]
+    sojourns=[requests_nb[0]/gamma[0],1/ur,requests_nb[2]/gamma[2]]
+    (sojourn_h,sojourn_r,sojourn_d)=tuple(sojourns)
+    mean_sojourn=sojourn_h+(sojourn_r+(1-p)*sojourn_d)/p
+    return (requests_nb,mean_sojourn,sojourns)
 
 
 
@@ -58,6 +72,9 @@ ud=10
 C=5
 p=0.5
 N=15
+
+print("Computing with lamdba_h {}, mu_h {}, mu_r {},mu_d {}, C {}, p {} and N {}".format(lh, uh, ur, ud, C, p, N))
+
 
 print("approximation 1:")
 app1=compute_approx_1(lh,uh,ur,ud,C,p,N)
@@ -70,3 +87,41 @@ app2=compute_approx_2(lh,uh,ur,ud,C,p,N)
 print("Mean number of requests: {}".format(app2[0]))
 print("Mean sojourn time: {}".format(app2[1]))
 print("Mean sojourn time in each node: {}".format(app2[2]))
+
+print("approximation 3:")
+app3=compute_approx_3(lh,uh,ur,ud,C,p,N)
+print("Mean number of requests: {}".format(app3[0]))
+print("Mean sojourn time: {}".format(app3[1]))
+print("Mean sojourn time in each node: {}".format(app3[2]))
+
+lh=1
+uh=10
+ur=1
+ud=10
+C=5
+p=0.22
+N=15
+
+print("\n")
+print("-----------------------------------------------------------------------------------------\n")
+print("Computing with lamdba_h {}, mu_h {}, mu_r {},mu_d {}, C {}, p {} and N {}".format(lh, uh, ur, ud, C, p, N))
+
+
+print("approximation 1:")
+app1=compute_approx_1(lh,uh,ur,ud,C,p,N)
+print("Mean number of requests: {}".format(app1[0]))
+print("Mean sojourn time: {}".format(app1[1]))
+print("Mean sojourn time in each node: {}".format(app1[2]))
+
+print("approximation 2:")
+app2=compute_approx_2(lh,uh,ur,ud,C,p,N)
+print("Mean number of requests: {}".format(app2[0]))
+print("Mean sojourn time: {}".format(app2[1]))
+print("Mean sojourn time in each node: {}".format(app2[2]))
+
+print("approximation 3:")
+app3=compute_approx_3(lh,uh,ur,ud,C,p,N)
+print("Mean number of requests: {}".format(app3[0]))
+print("Mean sojourn time: {}".format(app3[1]))
+print("Mean sojourn time in each node: {}".format(app3[2]))
+
