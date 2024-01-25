@@ -12,11 +12,11 @@ def compute_approx_1(lh, uh, ur, ud, C, p,N):
     gamma=[lh,lh/p,(1-p)*lh/p]
     rho=[g/u for g,u in zip(gamma,mu)]
     phir=phi_R(n,C)
-    somme=sum([rho[1]**i/phir for i in range(1,n)])
+    somme=sum([rho[1]**(i)/phir for i in range(1,n)])
     pr0=1/somme
     # print(pr0)
     
-    req_nb_r=sum([(pr0*rho[1]**i/phir)*i for i in range(1,n)])
+    req_nb_r=sum([(pr0*rho[1]**(i)/phir)*i for i in range(1,n)])
     debug=sum([pr0*rho[1]**i/phir for i in range(1,n)])
     # print(debug)
 
@@ -25,7 +25,7 @@ def compute_approx_1(lh, uh, ur, ud, C, p,N):
     (sojourn_h,sojourn_r,sojourn_d)=(sojourns[0],sojourns[1],sojourns[2])
     sojourn_r_d=(sojourn_r+(1-p)*sojourn_d)/p
     mean_sojourn=sojourn_h+sojourn_r_d
-    return (mean_sojourn,requests_nb)
+    return (requests_nb,mean_sojourn,sojourns)
 
 
 lh=1
@@ -37,6 +37,7 @@ p=0.5
 N=15
 
 
-(mean,reque)=compute_approx_1(lh,uh,ur,ud,C,p,N)
-print(mean)
-print(reque)
+(reque,mean,sojourns)=compute_approx_1(lh,uh,ur,ud,C,p,N)
+print("Mean number of requests: {}".format(reque))
+print("Mean sojourn time: {}".format(mean))
+print("Mean sojourn time in each node: {}".format(sojourns))

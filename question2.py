@@ -94,7 +94,8 @@ sojourns=[c/r if r!= 0 else 0 for c,r in zip(cust_nb,throughput)]
 sojourn_r_d=(sojourn_r+(1-p)*sojourn_d)/p
 mean_sojourn=sojourn_h+sojourn_r_d
 
-print("probabilité de refus : {}".format(p_rejec))
-print("nombre de clients : {}, total : {}".format(cust_nb,sum(cust_nb)))
-print("throughput : {}, total : {}".format(throughput,sum(throughput)))
+
+print("Probability of rejection: {}".format(p_rejec))
+print("Average number of customers: {}, total: {}".format(cust_nb,sum(cust_nb)))
+print("Throughput: {}, total: {}".format(throughput,sum(throughput)))
 print("Mean sojourn time : {}".format(mean_sojourn))
