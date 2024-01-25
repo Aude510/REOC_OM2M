@@ -77,25 +77,82 @@ def compute_N_thread(lh, uh, ur, ud, C, p,N):
     p_rejec=k/temps_total 
     cust_nb=[nb/temps_total for nb in customers]
     throughput=[nb/temps_total for nb in requests]
-    return (p_rejec,cust_nb,throughput)# performance measures with N = 1 
+    sojourns=[c/r if r!= 0 else 0 for c,r in zip(cust_nb,throughput)]
+    (sojourn_h,sojourn_r,sojourn_d)=tuple(sojourns[1:])
+    sojourn_r_d=(sojourn_r+(1-p)*sojourn_d)/p
+    mean_sojourn=sojourn_h+sojourn_r_d
+    return (p_rejec,cust_nb,throughput,mean_sojourn,sojourns) 
 
 
 lh=1
-uh=1
+uh=10
 ur=1
-ud=1
-C=1
-p=1
-N=5
+ud=10
+C=5
+p=0.5
+N=15
 
-(p_rejec,cust_nb,throughput)=compute_N_thread(lh,uh,ur,ud,C,p,N)
-sojourns=[c/r if r!= 0 else 0 for c,r in zip(cust_nb,throughput)]
-(sojourn_h,sojourn_r,sojourn_d)=(sojourns[1],sojourns[2],sojourns[3])
-sojourn_r_d=(sojourn_r+(1-p)*sojourn_d)/p
-mean_sojourn=sojourn_h+sojourn_r_d
+(p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
 
 
 print("Probability of rejection: {}".format(p_rejec))
-print("Average number of customers: {}, total: {}".format(cust_nb,sum(cust_nb)))
-print("Throughput: {}, total: {}".format(throughput,sum(throughput)))
+print("Average number of requests: {}".format(cust_nb))
 print("Mean sojourn time : {}".format(mean_sojourn))
+
+print("\n")
+print("-----------------------------------------------------------------------------------------\n")
+
+lh=1
+uh=10
+ur=1
+ud=10
+C=5
+p=0.22
+N=15
+
+(p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+
+
+print("Probability of rejection: {}".format(p_rejec))
+print("Average number of requests: {}".format(cust_nb))
+print("Mean sojourn time : {}".format(mean_sojourn))
+
+print("\n")
+print("-----------------------------------------------------------------------------------------\n")
+
+lh=1
+uh=10
+ur=1
+ud=10
+C=5
+p=0.5
+N=30
+
+(p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+
+
+print("Probability of rejection: {}".format(p_rejec))
+print("Average number of requests: {}".format(cust_nb))
+print("Mean sojourn time : {}".format(mean_sojourn))
+
+print("\n")
+print("-----------------------------------------------------------------------------------------\n")
+
+lh=1
+uh=10
+ur=1
+ud=10
+C=5
+p=0.22
+N=30
+
+(p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+
+
+print("Probability of rejection: {}".format(p_rejec))
+print("Average number of requests: {}".format(cust_nb))
+print("Mean sojourn time : {}".format(mean_sojourn))
+
+print("\n")
+print("-----------------------------------------------------------------------------------------\n")
+
