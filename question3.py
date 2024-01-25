@@ -88,9 +88,9 @@ def compute_open_net(lh, uh, ur, ud, C, p,N):
 
 
 lh=1
-ud=1
 uh=1
 ur=1
+ud=1
 C=1
 p=1
 N=5
