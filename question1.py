@@ -1,4 +1,5 @@
 from enum import Enum
+from math import exp
 import random  
 import numpy as np
 
@@ -67,31 +68,34 @@ def compute_one_thread(lh, uh, ur, ud, C, p):
     #er=[0,0,1,0]
     #ed=[0,0,0,1]
     k=0 # when T is empty to calculate possibility of rejection 
-    A=[0,0,0,0]
-    tau=1000
+    customers=[0,0,0,0]
+    requests=[0,0,0,0]
+    tours=1000
+    tau=0
     #events=[event.rien]
 
      #  ∆X = λH + μH 1(XH > 0) + min(XR, C)μR + μD · 1(XD > 0)
    
     # simulation 
-    for n in range(1,tau):
+    for n in range(1,tours):
         u=random.uniform(0.0,1.0)
         max_rate=lh*indic(X[0]>0) + uh*indic(X[1]>0) + min(X[2],C)*ur + ud*indic(X[3])
+        tau+=np.random.exponential(max_rate)
         proba_TtoH=lh*indic(X[0]>0)/max_rate
         proba_HtoR=uh*indic(X[1]>0)/max_rate
         proba_RtoD=(1-p)*ur*min(X[2],C)/max_rate
         proba_RtoT=p*ur*min(X[2],C)/max_rate
         proba_DtoR=ud*indic(X[3]>0)/max_rate
         
-        print("tour {}".format(n))
-        print("max_rate: {}".format(max_rate))
-        print("probas:")
-        print(proba_TtoH)
-        print(proba_HtoR)
-        print(proba_RtoD)
-        print(proba_RtoT)
-        print(proba_DtoR)
-        print("sum probas: {}".format(proba_DtoR+proba_HtoR+proba_RtoD+proba_RtoT+proba_TtoH))
+        #print("tour {}".format(n))
+        #print("max_rate: {}".format(max_rate))
+        #print("probas:")
+        #print(proba_TtoH)
+        #print(proba_HtoR)
+        #print(proba_RtoD)
+        #print(proba_RtoT)
+        #print(proba_DtoR)
+        #print("sum probas: {}".format(proba_DtoR+proba_HtoR+proba_RtoD+proba_RtoT+proba_TtoH))
 
         #  T0 H1 R2 D3 
         # X=[N,0,0,0]
@@ -100,34 +104,43 @@ def compute_one_thread(lh, uh, ur, ud, C, p):
             # X=X+eh-et
             X[1]+=1
             X[0]-=1
+            requests[1]+=1
         elif proba_TtoH <= u <= proba_HtoR+proba_TtoH:
             # X=X+er-eh
             X[2]+=1
             X[1]-=1
+            requests[2]+=1
         elif proba_HtoR+proba_TtoH <= u <= proba_HtoR+proba_TtoH+proba_RtoD:
             # X=X+ed-er
             X[3]+=1
             X[2]-=1
+            requests[3]+=1
         elif proba_HtoR+proba_TtoH+proba_RtoD <= u <= proba_HtoR+proba_TtoH+proba_RtoD+proba_RtoT:
             # X=X+et-er
             X[0]+=1
             X[2]-=1
+            requests[0]+=1
         elif proba_HtoR+proba_TtoH+proba_RtoD+proba_RtoT <= u <= proba_HtoR+proba_TtoH+proba_RtoD+proba_RtoT+proba_DtoR:
             # X=X+er-ed
             X[2]+=1
             X[3]-=1
+            requests[2]+=1
         else:
             print("gros soucis" + str(u))
             exit()
         
         # performances measures 
         k+=indic(X[0]==0)
+        customers=np.add(customers,X)
 
 
     p_rejec=k/tau 
-    cust_numb=
-    return (X,p_rejec,# performance measures with N = 1 
+    cust_nb=[nb/tau for nb in customers]
+    throughput=[nb/tau for nb in requests]
+    return (p_rejec,cust_nb,throughput)# performance measures with N = 1 
 
 
-X=compute_one_thread(1,1,1,1,1,0.9)
-print(X)
+(p_rejec,cust_nb,throughput)=compute_one_thread(1,1,1,1,1,0.9)
+print(p_rejec)
+print(cust_nb)
+print(throughput)
