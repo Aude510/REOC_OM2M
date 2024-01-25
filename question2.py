@@ -80,7 +80,21 @@ def compute_N_thread(lh, uh, ur, ud, C, p,N):
     return (p_rejec,cust_nb,throughput)# performance measures with N = 1 
 
 
-(p_rejec,cust_nb,throughput)=compute_N_thread(lh=1,ud=1,uh=1,ur=1,C=1,p=1,N=5)
+lh=1
+ud=1
+uh=1
+ur=1
+C=1
+p=1
+N=5
+
+(p_rejec,cust_nb,throughput)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+sojourns=[c/r if r!= 0 else 0 for c,r in zip(cust_nb,throughput)]
+(sojourn_h,sojourn_r,sojourn_d)=(sojourns[1],sojourns[2],sojourns[3])
+sojourn_r_d=(sojourn_r+(1-p)*sojourn_d)/p
+mean_sojourn=sojourn_h+sojourn_r_d
+
 print("probabilité de refus : {}".format(p_rejec))
 print("nombre de clients : {}, total : {}".format(cust_nb,sum(cust_nb)))
 print("throughput : {}, total : {}".format(throughput,sum(throughput)))
+print("Mean sojourn time : {}".format(mean_sojourn))
