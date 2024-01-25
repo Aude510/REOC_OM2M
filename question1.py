@@ -15,8 +15,9 @@ def compute_one_thread(lh, uh, ur, ud, C, p):
     # initialisation 
     #  T0 H1 R2 D3 
     X=[N,0,0,0]
-    tours=1000 
-    tau=0
+    tours=100000
+ 
+    temps_total=0
     # performance measures 
     k=0 # when T is empty to compute possibility of rejection 
     customers=[0,0,0,0] # to compute mean number of customers 
@@ -27,7 +28,8 @@ def compute_one_thread(lh, uh, ur, ud, C, p):
     for _ in range(1,tours):
         u=random.uniform(0.0,1.0)
         max_rate=lh*indic(X[0]>0) + uh*indic(X[1]>0) + min(X[2],C)*ur + ud*indic(X[3])
-        tau+=max_rate# np.random.exponential(max_rate)
+        duree=np.random.exponential(1/max_rate)
+        temps_total+=duree
         proba_TtoH=lh*indic(X[0]>0)/max_rate
         proba_HtoR=uh*indic(X[1]>0)/max_rate
         proba_RtoD=(1-p)*ur*min(X[2],C)/max_rate
@@ -67,13 +69,13 @@ def compute_one_thread(lh, uh, ur, ud, C, p):
             exit()
         
         # performances measures 
-        k+=indic(X[0]==0)
-        customers=np.add(customers,X)
+        k+=indic(X[0]==0) # pondérer par durée en réseau ouvert 
+        customers=[nb+x*duree for nb,x in zip(customers,X)] 
 
 
-    p_rejec=k/tau 
-    cust_nb=[nb/tau for nb in customers]
-    throughput=[nb/tau for nb in requests]
+    p_rejec=k/temps_total 
+    cust_nb=[nb/temps_total for nb in customers]
+    throughput=[nb/temps_total for nb in requests]
     return (p_rejec,cust_nb,throughput)# performance measures with N = 1 
 
 
