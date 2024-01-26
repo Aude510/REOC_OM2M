@@ -84,75 +84,102 @@ def compute_N_thread(lh, uh, ur, ud, C, p,N):
     return (p_rejec,cust_nb,throughput,mean_sojourn,sojourns) 
 
 
-lh=1
-uh=10
-ur=1
-ud=10
-C=5
-p=0.5
-N=15
+def part2():
+    lh=1
+    uh=10
+    ur=1
+    ud=10
+    C=5
+    p=0.5
+    N=15
 
-(p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+    (p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
 
 
-print("Probability of rejection: {}".format(p_rejec))
-print("Average number of requests: {}".format(cust_nb))
-print("Mean sojourn time : {}".format(mean_sojourn))
+    print("Probability of rejection: {}".format(p_rejec))
+    print("Average number of requests: {}".format(cust_nb))
+    print("Mean sojourn time : {}".format(mean_sojourn))
+
+    print("\n")
+    print("-----------------------------------------------------------------------------------------\n")
+
+    lh=1
+    uh=10
+    ur=1
+    ud=10
+    C=5
+    p=0.22
+    N=15
+
+    (p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+
+
+    print("Probability of rejection: {}".format(p_rejec))
+    print("Average number of requests: {}".format(cust_nb))
+    print("Mean sojourn time : {}".format(mean_sojourn))
+
+    print("\n")
+    print("-----------------------------------------------------------------------------------------\n")
+
+    lh=1
+    uh=10
+    ur=1
+    ud=10
+    C=5
+    p=0.5
+    N=30
+
+    (p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+
+
+    print("Probability of rejection: {}".format(p_rejec))
+    print("Average number of requests: {}".format(cust_nb))
+    print("Mean sojourn time : {}".format(mean_sojourn))
+
+    print("\n")
+    print("-----------------------------------------------------------------------------------------\n")
+
+    lh=1
+    uh=10
+    ur=1
+    ud=10
+    C=5
+    p=0.22
+    N=30
+
+    (p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+
+
+    print("Probability of rejection: {}".format(p_rejec))
+    print("Average number of requests: {}".format(cust_nb))
+    print("Mean sojourn time : {}".format(mean_sojourn))
+
+    print("\n")
+    print("-----------------------------------------------------------------------------------------\n")
+
+
+
+def part1():
+    lh=2
+    uh=1
+    ur=1
+    ud=1
+    C=1
+    p=1
+    N=1
+
+    (p_rejec,_,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
+
+
+    print("Probability of rejection: {}".format(p_rejec))
+    print("Mean sojourn time : {}".format(mean_sojourn))
+
+    print("\n")
+    print("-----------------------------------------------------------------------------------------\n")
+
+
 
 print("\n")
 print("-----------------------------------------------------------------------------------------\n")
 
-lh=1
-uh=10
-ur=1
-ud=10
-C=5
-p=0.22
-N=15
-
-(p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
-
-
-print("Probability of rejection: {}".format(p_rejec))
-print("Average number of requests: {}".format(cust_nb))
-print("Mean sojourn time : {}".format(mean_sojourn))
-
-print("\n")
-print("-----------------------------------------------------------------------------------------\n")
-
-lh=1
-uh=10
-ur=1
-ud=10
-C=5
-p=0.5
-N=30
-
-(p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
-
-
-print("Probability of rejection: {}".format(p_rejec))
-print("Average number of requests: {}".format(cust_nb))
-print("Mean sojourn time : {}".format(mean_sojourn))
-
-print("\n")
-print("-----------------------------------------------------------------------------------------\n")
-
-lh=1
-uh=10
-ur=1
-ud=10
-C=5
-p=0.22
-N=30
-
-(p_rejec,cust_nb,_,mean_sojourn,_)=compute_N_thread(lh,uh,ur,ud,C,p,N)
-
-
-print("Probability of rejection: {}".format(p_rejec))
-print("Average number of requests: {}".format(cust_nb))
-print("Mean sojourn time : {}".format(mean_sojourn))
-
-print("\n")
-print("-----------------------------------------------------------------------------------------\n")
-
+part1()
